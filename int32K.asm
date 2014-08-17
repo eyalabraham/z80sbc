@@ -69,7 +69,7 @@ defs            29, $ff                                 ; byte padding between v
 ;------------------------------------------------------------------------------
 ; RST 38 - INTERRUPT VECTOR [ for IM 1 ]
 
-.RST38          JR      serialInt       
+.RST38          JR      serialInt
 
 ;------------------------------------------------------------------------------
 serialInt:      PUSH     AF
@@ -90,7 +90,7 @@ serialInt:      PUSH     AF
 notFull:        LD       HL,(serInPtr)
                 INC      HL
                 LD       A,L                            ; Only need to check low byte becasuse buffer<256 bytes
-;                CP       ((serBuf + SER_BUFSIZE) ~ $FF) ; @@- replace with code the evaluates properly to a byte for this assembler
+                CP       $3f ; ((serBuf + SER_BUFSIZE) ~ $FF)  @@- replace with code the evaluates properly to a byte for this assembler
                 JR       NZ, notWrap
                 LD       HL,serBuf
 notWrap:        LD       (serInPtr),HL
@@ -117,7 +117,7 @@ waitForChar:    LD       A,(serBufUsed)
                 LD       HL,(serRdPtr)
                 INC      HL
                 LD       A,L                            ; Only need to check low byte becasuse buffer<256 bytes
-;                CP       ((serBuf+SER_BUFSIZE) ~ $FF) ; @@- replace with code the evaluates properly to a byte for this assembler
+                CP       $3f ; ((serBuf+SER_BUFSIZE) ~ $FF) @@- replace with code the evaluates properly to a byte for this assembler
                 JR       NZ, notRdWrap
                 LD       HL,serBuf
 notRdWrap:      DI
@@ -210,3 +210,8 @@ SIGNON2:
 defb            CR
 defb            LF
 defm            "Cold or warm start (C or W)? ",0
+
+;------------------------------------------------------------------------------
+; padding between modules
+
+defs            ($0150 - ASMPC), $ff

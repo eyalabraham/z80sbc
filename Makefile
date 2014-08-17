@@ -30,11 +30,10 @@ bin : z80sbc.bin
 srec : z80sbc.srec
 
 z80sbc.bin : $(DEPENDENCIES)
-	z80asm -v -b -l -nm -o$@ $?
+	./z80asm.sh -v -b -l -nm -o$@ $?
 
-z80sbc.srec : $(DEPENDENCIES)
-	z80asm -v -b -l -nm -o$@ $?
-# add: tool to conver z80sbc.bin to z80sbc.srec
+z80sbc.srec : z80sbc.bin
+	# add: tool to conver z80sbc.bin to z80sbc.srec
 
 .PHONY : CLEAN
 clean :

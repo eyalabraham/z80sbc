@@ -126,7 +126,7 @@ defc            MO              = 24H                   ; Missing operand
 defc            HX              = 26H                   ; HEX error
 defc            BN              = 28H                   ; BIN error
 ;
-                org $0150
+;               org $0150                               ; using padding between modules. see int32.asm
 ;
 COLD:   JP      STARTB          ; Jump for cold start
 WARM:   JP      WARMST          ; Jump for warm start
@@ -134,8 +134,8 @@ STARTB:
         LD      IX,0            ; Flag cold start
         JP      CSTART          ; Jump to initialise
 
-defw               DEINT           ; Get integer -32768 to 32767
-defw               ABPASS          ; Return integer in AB
+defw    DEINT                   ; Get integer -32768 to 32767
+defw    ABPASS                  ; Return integer in AB
 
 
 CSTART: LD      HL,WRKSPC       ; Start of workspace RAM
@@ -220,12 +220,12 @@ BRKRET: CALL    CLREG           ; Clear registers and stack
         JP      PRNTOK          ; Go to get command line
 
 BFREE:
-defm               " Bytes free",CR,LF,0,0
+defm    " Bytes free",CR,LF,0,0
 
 SIGNON:
-defm               "Z80 BASIC Ver 4.7b",CR,LF
-defm               "Copyright ",40,"C",41
-defm               " 1978 by Microsoft",CR,LF,0,0
+defm    "Z80 BASIC Ver 4.7b",CR,LF
+defm    "Copyright ",40,"C",41
+defm    " 1978 by Microsoft",CR,LF,0,0
 
 MEMMSG:
 defm               "Memory top",0
@@ -355,36 +355,36 @@ defb               80H             ; End of list marker
 ; KEYWORD ADDRESS TABLE
 
 WORDTB:
-defw               PEND
-defw               FOR
-defw               NEXT
-defw               DATA
-defw               INPUT
-defw               DIM
-defw               READ
-defw               LET
-defw               GOTO
-defw               RUN
-defw               IF
-defw               RESTOR
-defw               GOSUB
-defw               RETURN
-defw               REM
-defw               STOP
-defw               POUT
-defw               ON
-defw               NULL
-defw               WAIT
-defw               DEF
-defw               POKE
-defw               DOKE
-defw               REM
-defw               LINES
-defw               CLS
-defw               WIDTH
-defw               MONITR
-defw               PSET
-defw               RESET
+defw            PEND
+defw            FOR
+defw            NEXT
+defw            DATA
+defw            INPUT
+defw            DIM
+defw            READ
+defw            LET
+defw            GOTO
+defw            RUN
+defw            IF
+defw            RESTOR
+defw            GOSUB
+defw            RETURN
+defw            REM
+defw            STOP
+defw            POUT
+defw            ON
+defw            NULL
+defw            WAIT
+defw            DEF
+defw            POKE
+defw            DOKE
+defw            REM
+defw            LINES
+defw            CLS
+defw            WIDTH
+defw            MONITR
+defw            PSET
+defw            RESET
 defw            PRINT
 defw            CONT
 defw            LIST
@@ -427,51 +427,51 @@ defc            ZLEFT           = 0CDH                  ; LEFT$
 ; ARITHMETIC PRECEDENCE TABLE
 
 PRITAB:
-defb               79H             ; Precedence value
-defw               PADD            ; FPREG = <last> + FPREG
+defb            79H             ; Precedence value
+defw            PADD            ; FPREG = <last> + FPREG
 
-defb               79H             ; Precedence value
-defw               PSUB            ; FPREG = <last> - FPREG
+defb            79H             ; Precedence value
+defw            PSUB            ; FPREG = <last> - FPREG
 
-defb               7CH             ; Precedence value
-defw               MULT            ; PPREG = <last> * FPREG
+defb            7CH             ; Precedence value
+defw            MULT            ; PPREG = <last> * FPREG
 
-defb               7CH             ; Precedence value
-defw               DIV             ; FPREG = <last> / FPREG
+defb            7CH             ; Precedence value
+defw            DIV             ; FPREG = <last> / FPREG
 
-defb               7FH             ; Precedence value
-defw               POWER           ; FPREG = <last> ^ FPREG
+defb            7FH             ; Precedence value
+defw            POWER           ; FPREG = <last> ^ FPREG
 
-defb               50H             ; Precedence value
-defw               PAND            ; FPREG = <last> AND FPREG
+defb            50H             ; Precedence value
+defw            PAND            ; FPREG = <last> AND FPREG
 
-defb               46H             ; Precedence value
-defw               POR             ; FPREG = <last> OR FPREG
+defb            46H             ; Precedence value
+defw            POR             ; FPREG = <last> OR FPREG
 
 ; BASIC ERROR CODE LIST
 
 ERRORS:
-defm               "NF"            ; NEXT without FOR
-defm               "SN"            ; Syntax error
-defm               "RG"            ; RETURN without GOSUB
-defm               "OD"            ; Out of DATA
-defm               "FC"            ; Illegal function call
-defm               "OV"            ; Overflow error
-defm               "OM"            ; Out of memory
-defm               "UL"            ; Undefined line
-defm               "BS"            ; Bad subscript
-defm               "DD"            ; Re-DIMensioned array
-defm               "/0"            ; Division by zero
-defm               "ID"            ; Illegal direct
-defm               "TM"            ; Type mis-match
-defm               "OS"            ; Out of string space
-defm               "LS"            ; String too long
-defm               "ST"            ; String formula too complex
-defm               "CN"            ; Can't CONTinue
-defm               "UF"            ; Undefined FN function
-defm               "MO"            ; Missing operand
-defm               "HX"            ; HEX error
-defm               "BN"            ; BIN error
+defm            "NF"            ; NEXT without FOR
+defm            "SN"            ; Syntax error
+defm            "RG"            ; RETURN without GOSUB
+defm            "OD"            ; Out of DATA
+defm            "FC"            ; Illegal function call
+defm            "OV"            ; Overflow error
+defm            "OM"            ; Out of memory
+defm            "UL"            ; Undefined line
+defm            "BS"            ; Bad subscript
+defm            "DD"            ; Re-DIMensioned array
+defm            "/0"            ; Division by zero
+defm            "ID"            ; Illegal direct
+defm            "TM"            ; Type mis-match
+defm            "OS"            ; Out of string space
+defm            "LS"            ; String too long
+defm            "ST"            ; String formula too complex
+defm            "CN"            ; Can't CONTinue
+defm            "UF"            ; Undefined FN function
+defm            "MO"            ; Missing operand
+defm            "HX"            ; HEX error
+defm            "BN"            ; BIN error
 
 ; INITIALISATION TABLE -------------------------------------------------------
 
@@ -489,32 +489,37 @@ INITAB: JP      WARMST          ; Warm start jump
         LD      B,A
         LD      A,0
         RET
-defb               0,0,0                   ; Random number seed table used by RND
-defb               035H,04AH,0CAH,099H     ;-2.65145E+07
-defb               039H,01CH,076H,098H     ; 1.61291E+07
-defb               022H,095H,0B3H,098H     ;-1.17691E+07
-defb               00AH,0DDH,047H,098H     ; 1.30983E+07
-defb               053H,0D1H,099H,099H     ;-2-01612E+07
-defb               00AH,01AH,09FH,098H     ;-1.04269E+07
-defb               065H,0BCH,0CDH,098H     ;-1.34831E+07
-defb               0D6H,077H,03EH,098H     ; 1.24825E+07
-defb               052H,0C7H,04FH,080H     ; Last random number
+;
+defb            0,0,0                   ; Random number seed table used by RND
+defb            035H,04AH,0CAH,099H     ;-2.65145E+07
+defb            039H,01CH,076H,098H     ; 1.61291E+07
+defb            022H,095H,0B3H,098H     ;-1.17691E+07
+defb            00AH,0DDH,047H,098H     ; 1.30983E+07
+defb            053H,0D1H,099H,099H     ;-2-01612E+07
+defb            00AH,01AH,09FH,098H     ;-1.04269E+07
+defb            065H,0BCH,0CDH,098H     ;-1.34831E+07
+defb            0D6H,077H,03EH,098H     ; 1.24825E+07
+defb            052H,0C7H,04FH,080H     ; Last random number
+;
         IN      A,(0)           ; INP (x) skeleton
         RET
-defb               1               ; POS (x) number (1)
-defb               255             ; Terminal width (255 = no auto CRLF)
-defb               28              ; Width for commas (3 columns)
-defb               0               ; No nulls after input bytes
-defb               0               ; Output enabled (^O off)
-defw               20              ; Initial lines counter
-defw               20              ; Initial lines number
-defw               0               ; Array load/save check sum
-defb               0               ; Break not by NMI
-defb               0               ; Break flag
+;
+defb            1               ; POS (x) number (1)
+defb            255             ; Terminal width (255 = no auto CRLF)
+defb            28              ; Width for commas (3 columns)
+defb            0               ; No nulls after input bytes
+defb            0               ; Output enabled (^O off)
+defw            20              ; Initial lines counter
+defw            20              ; Initial lines number
+defw            0               ; Array load/save check sum
+defb            0               ; Break not by NMI
+defb            0               ; Break flag
+;
         JP      TTYLIN          ; Input reflection (set to TTY)
         JP      $0000           ; POINT reflection unused
         JP      $0000           ; SET reflection
         JP      $0000          	; RESET reflection
+;
 defw               STLOOK          ; Temp string space
 defw               -2              ; Current line number (cold)
 defw               PROGST+1        ; Start of program text
