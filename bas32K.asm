@@ -126,7 +126,7 @@ defc            MO              = 24H                   ; Missing operand
 defc            HX              = 26H                   ; HEX error
 defc            BN              = 28H                   ; BIN error
 ;
-;               org $0150                               ; using padding between modules. see int32.asm
+;               org $0200                               ; using padding between modules. see int32.asm
 ;
 COLD:   JP      STARTB          ; Jump for cold start
 WARM:   JP      WARMST          ; Jump for warm start
@@ -223,12 +223,12 @@ BFREE:
 defm    " Bytes free",CR,LF,0,0
 
 SIGNON:
-defm    "Z80 BASIC Ver 4.7b",CR,LF
+defm    CR,LF,"Z80 BASIC Ver 4.7b",CR,LF
 defm    "Copyright ",40,"C",41
 defm    " 1978 by Microsoft",CR,LF,0,0
 
 MEMMSG:
-defm               "Memory top",0
+defm               "Memory top  (max 65529)",0
 
 ; FUNCTION ADDRESS TABLE
 
