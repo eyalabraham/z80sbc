@@ -101,8 +101,10 @@ defc            LCRINIT         = @00000011             ; 8-bit Rx/Tx, 1 stop bi
 ;                                  +---------- b7.. Divisor Latch Access Bit (DLAB)
 
 defc            MCR             = $04                   ; MODEM Control Reg.
-defc            MCRINIT         = @00000000             ; all inactive
-defc            MCRLOOP         = @00010000             ; loop-back test
+defc            MCRINIT         = @00001110             ; out1 & 2 'lo', RTS = Xmit on
+defc            MCRLOOP         = @00010000             ; OR mask for loop-back test
+defc            RTSXON          = @00000010             ; OR mask for RTS Xmit on
+defc            RTSXOFF         = @11111101             ; AND mask for RTS Xmit off
 ;                                  76543210
 ;                                  ||||||||
 ;                                  |||||||+--- b0.. DTR
@@ -214,8 +216,9 @@ notWrap:        LD      (serInPtr),HL
                 LD      (serBufUsed),A
                 CP      SER_FULLSIZE
                 JR      C,rts0
-                LD      A,RTS_HIGH
-;                OUT     (MCR),A                        ; @@- consider restoring HW flow control
+                LD      A,MCRINIT
+                and     RTSXOFF
+                OUT     (MCR),A                         ; assert RTS to stop transmitter
 rts0:           POP     HL
                 POP     AF
                 EI
@@ -242,8 +245,9 @@ notRdWrap:      DI
                 LD       (serBufUsed),A
                 CP       SER_EMPTYSIZE
                 JR       NC,rts1
-                LD       A,RTS_LOW
-;                OUT      (MCR),A                       ; @@- consider restoring HW flow control
+                LD       A,MCRINIT
+                or       RTSXON
+                OUT      (MCR),A                        ; deactivate RTS to release transmitter
 rts1:
                 LD       A,(HL)
                 EI
