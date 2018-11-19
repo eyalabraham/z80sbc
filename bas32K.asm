@@ -228,7 +228,7 @@ defm    "Copyright ",40,"C",41
 defm    " 1978 by Microsoft",CR,LF,0,0
 
 MEMMSG:
-defm               "Memory top  (max 65529)",0
+defm    "Memory top (max 65529)",0
 
 ; FUNCTION ADDRESS TABLE
 
